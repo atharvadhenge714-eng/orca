@@ -1,0 +1,19 @@
+EMERGENCY INFECTION & INFLAMMATORY SCREEN
+Patient Name: Jane Smith
+Age: 44 | Gender: Female
+Ward: Emergency Care Unit
+Collection Time: 08:30 AM
+
+TEST NAME                         RESULT    REFERENCE RANGE     UNIT
+-----------------------------------------------------------------------
+Total Leukocyte Count (WBC)       19200     4500 - 11000        cells/mcL
+hs-CRP (C-Reactive Protein)       72.5      0.0 - 3.0           mg/L
+Platelet Count                    94000     150000 - 450000     platelets/mcL
+Hemoglobin (Hb)                   12.0      13.0 - 17.5         g/dL
+Serum Creatinine                  1.5       0.6 - 1.2           mg/dL
+Blood Urea Nitrogen (BUN)         28.0      7.0 - 20.0          mg/dL
+Serum Potassium                   4.3       3.5 - 5.1           mEq/L
+Serum Sodium                      133.0     135.0 - 145.0       mEq/L
+-----------------------------------------------------------------------
+COMMENTS: Acute leukocytosis with elevated inflammatory markers.
+END OF REPORT

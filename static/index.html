@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>MedIntellect | Clinical Report Analyzer & Syndromic Pattern Detector</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+
+  <div class="app-container">
+    <!-- Top Header -->
+    <header class="header-hero">
+      <div class="brand">
+        <div class="brand-icon">🩺</div>
+        <div>
+          <h1 class="brand-title">MedIntellect Lab Intelligence</h1>
+          <p class="brand-subtitle">Clinical Decision-Support Triage & Cross-Biomarker Syndromic Pattern Reasoning</p>
+        </div>
+      </div>
+      <div class="status-badge-live">
+        <span class="pulse-dot"></span>
+        <span>Decision Support Active</span>
+      </div>
+    </header>
+
+    <!-- Main Grid -->
+    <div class="main-grid">
+      <!-- Left Sidebar / Input Options -->
+      <aside class="panel">
+        <h2 class="panel-title">📋 Medical Report Ingestion</h2>
+        
+        <div class="input-tabs">
+          <button class="tab-btn active" id="tabPresetsBtn" onclick="switchInputMode('presets')">Clinical Cases</button>
+          <button class="tab-btn" id="tabUploadBtn" onclick="switchInputMode('upload')">Upload File</button>
+          <button class="tab-btn" id="tabTextBtn" onclick="switchInputMode('text')">Paste Report</button>
+        </div>
+
+        <!-- Mode 1: Presets -->
+        <div id="modePresets">
+          <p style="font-size:0.8rem; color:var(--text-secondary); margin-bottom:12px;">
+            Select a verified clinical case scenario to preview the compound analysis engine:
+          </p>
+          <div id="samplesListContainer">
+            <!-- Dynamically populated -->
+          </div>
+        </div>
+
+        <!-- Mode 2: Upload File -->
+        <div id="modeUpload" style="display: none;">
+          <div class="drop-zone" id="dropZone" onclick="document.getElementById('fileInput').click()">
+            <div style="font-size: 2rem; margin-bottom: 8px;">📄</div>
+            <div style="font-weight: 600; font-size: 0.9rem; color: var(--text-primary);">Click or Drag & Drop Lab Report</div>
+            <div style="font-size: 0.78rem; color: var(--text-muted); margin-top: 4px;">Supports standard TXT or PDF lab sheets</div>
+            <input type="file" id="fileInput" accept=".txt,.pdf" style="display: none;" onchange="handleFileUpload(event)">
+          </div>
+          <div id="fileUploadStatus" style="margin-top: 10px; font-size: 0.82rem;"></div>
+        </div>
+
+        <!-- Mode 3: Text Paste -->
+        <div id="modeText" style="display: none;">
+          <div class="form-group">
+            <label for="rawReportText">Paste Raw Laboratory Text:</label>
+            <textarea id="rawReportText" rows="10" placeholder="e.g.&#10;Fasting Blood Sugar: 185 mg/dL&#10;HbA1c: 8.8%&#10;Serum Creatinine: 1.9 mg/dL&#10;Potassium: 5.5 mEq/L"></textarea>
+          </div>
+          <button class="btn-primary" onclick="analyzePastedText()">
+            <span>⚡ Parse & Analyze Report</span>
+          </button>
+        </div>
+
+        <div style="margin-top: 24px; padding-top: 18px; border-top: 1px solid var(--border-subtle);">
+          <div style="display:flex; justify-content:space-between; align-items:center;">
+            <span style="font-size:0.82rem; color:var(--text-muted);">Biomarker Knowledge Engine</span>
+            <span style="font-size:0.82rem; color:var(--accent-cyan); font-weight:600;">22 Parameters</span>
+          </div>
+        </div>
+      </aside>
+
+      <!-- Right Main Content Area -->
+      <main>
+        <!-- Triage Summary Card -->
+        <div id="triageBanner" class="triage-banner triage-CRITICAL">
+          <div class="triage-info">
+            <div style="font-size: 0.78rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; opacity: 0.85;">Triage Urgency Status</div>
+            <h3 id="triageRiskTitle">🚨 Loading Evaluation...</h3>
+            <p id="triageUrgencyDesc">Analyzing lab data against biological reference intervals...</p>
+          </div>
+          <div id="exportBtnContainer">
+            <button class="btn-primary" style="width: auto; padding: 10px 18px; font-size: 0.85rem;" onclick="exportSummary()">
+              📥 Export Brief
+            </button>
+          </div>
+        </div>
+
+        <!-- 4 Quick Stats -->
+        <div class="metrics-row">
+          <div class="metric-box">
+            <div class="metric-label">Analyzed Biomarkers</div>
+            <div class="metric-value" id="valTotalAnalyzed">0</div>
+          </div>
+          <div class="metric-box">
+            <div class="metric-label">Normal Limits</div>
+            <div class="metric-value" style="color: #34d399;" id="valNormal">0</div>
+          </div>
+          <div class="metric-box">
+            <div class="metric-label">Abnormal Indicators</div>
+            <div class="metric-value" style="color: #fb7185;" id="valAbnormal">0</div>
+          </div>
+          <div class="metric-box">
+            <div class="metric-label">Syndromic Risk Patterns</div>
+            <div class="metric-value" style="color: #38bdf8;" id="valSyndromes">0</div>
+          </div>
+        </div>
+
+        <!-- Standout Feature: Cross-Biomarker Combinations -->
+        <div class="section-header">
+          <span>🧬 Multi-Indicator Syndromic Cross-Analysis</span>
+          <span style="font-size: 0.78rem; font-weight: 500; color: var(--accent-cyan); background: rgba(6,182,212,0.1); padding: 4px 10px; border-radius: 20px;">
+            Clinical Distinction
+          </span>
+        </div>
+        <p style="font-size: 0.88rem; color: var(--text-secondary); margin-bottom: 16px;">
+          Rather than evaluating lab metrics in clinical isolation, our multivariate reasoning engine maps compound interactions across organ systems to uncover early syndromic risks.
+        </p>
+
+        <div class="combo-container" id="combosList">
+          <!-- Dynamically inserted compound cards -->
+        </div>
+
+        <!-- Section: Out of Range Findings Table -->
+        <div class="section-header" style="margin-top: 32px;">
+          <span>⚠️ Flagged Values Outside Normal Reference Limits</span>
+        </div>
+        <div class="data-table-container">
+          <table>
+            <thead>
+              <tr>
+                <th>Biomarker</th>
+                <th>Observed Value</th>
+                <th>Standard Reference</th>
+                <th>Status</th>
+                <th>Deviation</th>
+                <th>Clinical Interpretation</th>
+              </tr>
+            </thead>
+            <tbody id="flagsTableBody">
+              <!-- Dynamically populated -->
+            </tbody>
+          </table>
+        </div>
+
+        <!-- Section: All Analyzed Biomarkers Accordion/List -->
+        <div class="section-header" style="margin-top: 36px;">
+          <span>📊 Full Laboratory Panel Overview</span>
+        </div>
+        <div class="data-table-container">
+          <table>
+            <thead>
+              <tr>
+                <th>Test Parameter</th>
+                <th>Category</th>
+                <th>Report Value</th>
+                <th>Standard Range</th>
+                <th>Status</th>
+              </tr>
+            </thead>
+            <tbody id="allDataTableBody">
+              <!-- Dynamically populated -->
+            </tbody>
+          </table>
+        </div>
+
+        <!-- Clinical Governance Disclaimer -->
+        <div class="disclaimer-card">
+          <strong>⚖️ Clinical Decision-Support & Diagnostic Scope Notice:</strong><br>
+          MedIntellect is an automated decision-support and educational triage platform designed to assist healthcare providers and patients by highlighting complex laboratory deviations. This tool does not issue a definitive diagnostic verdict. All automated findings must be clinically correlated with a comprehensive medical history, physical examination, and verified by a licensed physician.
+        </div>
+      </main>
+    </div>
+  </div>
+
+  <script src="/static/app.js"></script>
+</body>
+</html>

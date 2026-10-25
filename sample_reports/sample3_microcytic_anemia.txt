@@ -1,0 +1,17 @@
+HEMATOLOGY / COMPLETE BLOOD COUNT (CBC) REPORT
+Patient Name: Emily Clark
+Age: 29 | Gender: Female
+Clinical History: Chronic generalized lethargy, exertional dyspnea, pallor.
+
+TEST NAME                         RESULT    REFERENCE RANGE     UNIT
+-----------------------------------------------------------------------
+Hemoglobin (Hb)                   8.2       13.0 - 17.5         g/dL
+Total RBC Count                   3.7       4.5 - 5.9           million/mcL
+Mean Corpuscular Volume (MCV)     67.5      80.0 - 100.0        fL
+Total Leukocyte Count (WBC)       5800      4500 - 11000        cells/mcL
+Platelet Count                    475000    150000 - 450000     platelets/mcL
+Fasting Glucose                   90.0      70.0 - 99.0         mg/dL
+Serum Creatinine                  0.75      0.6 - 1.2           mg/dL
+-----------------------------------------------------------------------
+PERIPHERAL SMEAR: Microcytic hypochromic red cells with mild anisopoikilocytosis.
+END OF REPORT
